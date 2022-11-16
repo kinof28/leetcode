@@ -1,9 +1,3 @@
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.Queue;
-
 public class Solution {
 
     public static void main(String[] args) {
@@ -13,7 +7,7 @@ public class Solution {
     }
 
     public int removeStones(int[][] stones) {
-       Queue<int[]> queue=new LinkedList<>();
+        // Queue<int[]> queue=new LinkedList<>();
 
         return 0;
     }
