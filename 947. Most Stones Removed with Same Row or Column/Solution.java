@@ -8,7 +8,6 @@ public class Solution {
 
     public int removeStones(int[][] stones) {
         // Queue<int[]> queue=new LinkedList<>();
-
         return 0;
     }
 }
