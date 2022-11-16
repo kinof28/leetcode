@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -16,5 +17,10 @@ public class Solution {
        Queue<int[]> queue=new LinkedList<>();
 
         return 0;
+=======
+public class Solution {
+    public int removeStones(int[][] stones) {
+        
+>>>>>>> 80c87bc616c92c15355ec814e35780b7b6c99774
     }
 }
