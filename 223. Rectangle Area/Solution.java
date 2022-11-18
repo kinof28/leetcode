@@ -26,8 +26,10 @@ public class Solution {
         by2 = temp2;
         int rectangle1 = (ax1 - ax2) * (ay1 - ay2), rectangle2 = (bx1 - bx2) * (by1 - by2);
         int sum = rectangle1 + rectangle2;
-        if (bx1 <= ax1 && bx1 >= ax2 && bx2 <= ax1 && bx2 >= ax2) {
-        }
+        if (bx1 <= ax1 && bx1 >= ax2 && bx2 <= ax1 && bx2 >= ax2 && by1 <= ay1 && by1 >= ay2 && by2 <= ay1 && by2 >= ay2 ) {
+            // case of second rectangle inside the first one
+            sum=sum-rectangle2;
+        }else if()
         return sum;
     }
 }
