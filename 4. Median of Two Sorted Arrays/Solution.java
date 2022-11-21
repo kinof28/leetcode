@@ -1,9 +1,6 @@
 class Solution {
     public double findMedianSortedArrays(int[] nums1, int[] nums2) {
-        int index1=0,index2=0;
-
-
-
+        int totalLength = nums1.length + nums2.length;
 
         return 0;
     }
