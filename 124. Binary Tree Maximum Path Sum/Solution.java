@@ -1,25 +1,19 @@
-import java.util.HashMap;
-import java.util.Map;
-
 class Solution {
-
-    Map<TreeNode, Integer> treeSizes = new HashMap<>();
+    int maxSum;
 
     public int maxPathSum(TreeNode root) {
-        if (root == null)
-            return Integer.MIN_VALUE;
-        return (int) Math.max(treeSum(root), Math.max(maxPathSum(root.left), maxPathSum(root.right)));
+        maxSum = root.val;
+        maxPathSumRecursive(root);
+        return maxSum;
     }
 
-    public int treeSum(TreeNode root) {
+    public int maxPathSumRecursive(TreeNode root) {
         if (root == null)
             return 0;
-        else if (treeSizes.containsKey(root))
-            return treeSizes.get(root);
-        else {
-            int result = root.val + treeSum(root.left) + treeSum(root.right);
-            treeSizes.put(root, result);
-            return result;
-        }
+        int leftSubTree = Math.max(maxPathSumRecursive(root.left), 0);
+        int rightSubTree = Math.max(maxPathSumRecursive(root.right), 0);
+        maxSum = Math.max(maxSum, leftSubTree + rightSubTree + root.val);
+        return Math.max(root.val + leftSubTree, root.val + rightSubTree);
     }
+
 }
