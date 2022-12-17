@@ -1,11 +1,6 @@
 import java.util.Stack;
 
 class Solution {
-    public static void main(String[] args) {
-        Solution solution = new Solution();
-        System.out.println("result array: " +
-                solution.evalRPN(new String[] { "4", "13", "5", "/", "+" }));
-    }
 
     public int evalRPN(String[] tokens) {
         Stack<Integer> stack = new Stack<>();
