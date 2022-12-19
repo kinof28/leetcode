@@ -1,26 +1,39 @@
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
+import java.util.Queue;
+import java.util.Set;
 
 class Solution {
-    Map<Integer, Boolean> validPathMap = new HashMap<>();
-
-    public boolean validPath(int n, int[][] edges, int source, int destination) {
-        if (source == destination)
-            return true;
-        if (edges.length == 0)
-            return false;
-        if (validPathMap.containsKey(source))
-            return validPathMap.get(source);
-        int newSource;
-        boolean result;
-        for (int i = 0; i < edges.length; i++) {
-            if (edges[i][0] == source || edges[i][1] == source) {
-                newSource = edges[i][0] == source ? edges[i][1] : edges[i][0];
-                edges[i][0] = -1;
-                edges[i][1] = -1;
-                result = (validPath(n, edges, newSource, destination) || validPath(n, edges, source, destination));
-                validPathMap.put(source, result);
-                return result;
+    public boolean validPath(int n, int[][] edges, int start, int end) {
+        Map<Integer, List<Integer>> graph = new HashMap<>();
+        for (int[] edge : edges) {
+            int x = edge[0];
+            int y = edge[1];
+            graph.putIfAbsent(x, new ArrayList<>());
+            graph.get(x).add(y);
+            graph.putIfAbsent(y, new ArrayList<>());
+            graph.get(y).add(x);
+        }
+        Queue<Integer> queue = new LinkedList<>();
+        queue.offer(start);
+        Set<Integer> seen = new HashSet<>();
+        seen.add(start);
+        while (!queue.isEmpty()) {
+            int cur = queue.poll();
+            if (cur == end) {
+                return true;
+            }
+            if (graph.containsKey(cur)) {
+                for (int nei : graph.get(cur)) {
+                    if (!seen.contains(nei)) {
+                        queue.offer(nei);
+                        seen.add(nei);
+                    }
+                }
             }
         }
         return false;
