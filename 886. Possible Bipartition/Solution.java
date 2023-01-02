@@ -1,7 +1,9 @@
-import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 class Solution {
@@ -10,72 +12,57 @@ class Solution {
         Solution solution = new Solution();
 
         System.out.println(solution.possibleBipartition(10,
-                new int[][] { new int[] { 4, 7 },
-                        new int[] { 4, 8 },
-                        new int[] { 5, 6 },
-                        new int[] { 1, 6 },
-                        new int[] { 3, 7 },
-                        new int[] { 2, 5 },
-                        new int[] { 5, 8 },
-                        new int[] { 1, 2 },
-                        new int[] { 4, 9 },
-                        new int[] { 6, 10 },
-                        new int[] { 8, 10 },
-                        new int[] { 3, 6 },
-                        new int[] { 2, 10 },
-                        new int[] { 9, 10 },
-                        new int[] { 3, 9 },
-                        new int[] { 2, 3 },
-                        new int[] { 1, 9 },
-                        new int[] { 4, 6 },
-                        new int[] { 5, 7 },
-                        new int[] { 3, 8 },
-                        new int[] { 1, 8 },
-                        new int[] { 1, 7 },
-                        new int[] { 2, 4 } }));
+                new int[][] { new int[] { 1, 2 },
+                        new int[] { 1, 3 },
+                        new int[] { 2, 3 } }));
     }
+
+    Map<Integer, List<Integer>> graph = new HashMap<>();
+    int[] colors;
+    Set<Integer> visited = new HashSet<>();
 
     public boolean possibleBipartition(int n, int[][] dislikes) {
-        Set<Integer> group1 = new HashSet<>();
-        Set<Integer> group2 = new HashSet<>();
-        List<int[]> dislikeList = new ArrayList<>(Arrays.asList(dislikes));
-        if (dislikeList.size() < 1)
+        if (dislikes.length < 2)
             return true;
-        group1.add(dislikeList.get(0)[0]);
-        group2.add(dislikeList.get(0)[1]);
-        for (int i = 1; i < dislikeList.size(); i++) {
-            if (group1.contains(dislikeList.get(i)[0])) {
-                if (group1.contains(dislikeList.get(i)[1])) {
-                    return false;
-                }
-                group2.add(dislikeList.get(i)[1]);
-            } else if (group2.contains(dislikeList.get(i)[0])) {
-                if (group2.contains(dislikeList.get(i)[1])) {
-                    return false;
-                }
-                group1.add(dislikeList.get(i)[1]);
-            } else if (group1.contains(dislikeList.get(i)[1])) {
-                group2.add(dislikeList.get(i)[0]);
-            } else if (group2.contains(dislikeList.get(i)[1])) {
-                group1.add(dislikeList.get(i)[0]);
+        for (int[] is : dislikes) {
+            if (graph.containsKey(is[0])) {
+                graph.get(is[0]).add(is[1]);
             } else {
-                if (canBeAddedRandomly(dislikes, dislikeList.get(i), i)) {
-                    group1.add(dislikeList.get(i)[0]);
-                    group2.add(dislikeList.get(i)[1]);
-                } else {
-                    dislikeList.add(dislikeList.get(i));
-                }
+                List<Integer> list = new LinkedList<>();
+                list.add(is[1]);
+                graph.put(is[0], list);
+            }
+            if (graph.containsKey(is[1])) {
+                graph.get(is[1]).add(is[0]);
+            } else {
+                List<Integer> list = new LinkedList<>();
+                list.add(is[0]);
+                graph.put(is[1], list);
             }
         }
-        return true;
+        System.out.println("map keys: " + Arrays.toString(graph.keySet().toArray()));
+        colors = new int[dislikes.length];
+        return dfs(dislikes[0][0], 1);
     }
 
-    private boolean canBeAddedRandomly(int[][] dislikes, int[] couple, int coupleIndex) {
-        for (int i = coupleIndex + 1; i < dislikes.length; i++) {
-            if (couple[0] == dislikes[i][0] || couple[0] == dislikes[i][1] || couple[1] == dislikes[i][0]
-                    || couple[1] == dislikes[i][1])
+    private boolean dfs(int current, int color) {
+        System.out.println("current: " + current);
+        if (visited.contains(current)) {
+            if (colors[current] != color)
                 return false;
+            else
+                return true;
         }
-        return true;
+        if (graph.get(current).size() == 0)
+            return true;
+        if (colors[current] != 0 && colors[current] != color)
+            return false;
+        if (colors[current] == 0) {
+            colors[current] = color;
+            visited.add(current);
+        }
+        int firstChild = graph.get(current).remove(0);
+        System.out.println("first child: " + firstChild);
+        return dfs(firstChild, color == 1 ? 2 : 1) && dfs(current, color);
     }
 }
