@@ -3,4 +3,7 @@ from typing import List
 
 class Solution:
     def sortedSquares(self, nums: List[int]) -> List[int]:
-        return None
+        for i, num in enumerate(nums):
+            nums[i] = num*num
+        nums.sort()
+        return nums
