@@ -7,7 +7,7 @@ class Solution:
         Do not return anything, modify nums in-place instead.
         """
         n = len(nums)
-        k = k % len(nums)
+        k = k % n
         tempArray1 = nums[:n-k]
         tempArray2 = nums[n-k:]
         for i in range(len(tempArray2)):
