@@ -3,24 +3,14 @@ from typing import List
 
 class Solution:
     def canCompleteCircuit(self, gas: List[int], cost: List[int]) -> int:
-        # starting = 0
-        for i in range(len(gas)):
-            if (gas[i] >= cost[i]):
-                possible = True
+        n = len(gas)
+        available_gas = 0
+        starting_index = 0
+        for i in range(n*2):
+            available_gas += gas[i % n]-cost[i % n]
+            if (available_gas < 0):
                 available_gas = 0
-                starting = i
-                available_gas = gas[i]-cost[i]
-                j = (i+1) % len(gas)
-                while (possible):
-                    if (j == starting):
-                        return starting
-                    if ((gas[j]+available_gas) >= cost[j]):
-                        available_gas = (gas[j]+available_gas)-cost[j]
-                        j = (j+1) % len(gas)
-                    else:
-                        possible = False
+                starting_index = i+1
+            elif (i-starting_index+1 == n):
+                return starting_index
         return -1
-
-
-solution = Solution()
-print(solution.canCompleteCircuit([2, 3, 4], [3, 4, 3]))
