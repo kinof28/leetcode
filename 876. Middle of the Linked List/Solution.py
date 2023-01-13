@@ -10,4 +10,19 @@ class ListNode:
 
 class Solution:
     def middleNode(self, head: Optional[ListNode]) -> Optional[ListNode]:
-        return None
+        def get_length() -> int:
+            nonlocal head
+            iterator = head
+            length = 0
+            while (iterator != None):
+                length += 1
+                iterator = iterator.next
+            return length
+
+        n = get_length()/2
+        iterator = head
+        index = 1
+        while (index <= n):
+            iterator = iterator.next
+            index += 1
+        return iterator
