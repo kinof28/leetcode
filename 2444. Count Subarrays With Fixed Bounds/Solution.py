@@ -3,22 +3,27 @@ from typing import List
 
 class Solution:
     def countSubarrays(self, nums: List[int], minK: int, maxK: int) -> int:
-        sum = 0
-        for i in range(len(nums)):
-            min = nums[i]
-            max = nums[i]
-            if (min < minK or max > maxK):
-                continue
-            for n in nums[i:]:
-                if (n <= min):
-                    min = n
-                if (n >= max):
-                    max = n
-                if (min == minK and max == maxK):
-                    sum = sum+1
-        return sum
+        def count_recursive(nums: List[int],  current_min: int, current_max: int) -> int:
+            nonlocal minK, maxK
+            # print("current_min = ", current_min)
+            # print("current_max = ", current_max)
+            # print("current nums = ", nums)
+            if (len(nums) == 1 and ((nums[0] == minK == maxK) or (current_min == minK and current_max == maxK and nums[0] >= minK and nums[0] <= maxK))):
+                return 1
+            elif (len(nums) == 1):
+                return 0
+            if (nums[0] < minK or nums[0] > maxK):
+                return count_recursive(nums[1:], nums[1], nums[1])
+            if (nums[0] < current_min):
+                current_min = nums[0]
+            if (nums[0] > current_max):
+                current_max = nums[0]
+            if (current_min == minK and current_max == maxK and nums[0] >= minK and nums[0] <= maxK):
+                return 1+count_recursive(nums[1:], current_min, current_max)
+            else:
+                return count_recursive(nums[1:], current_min, current_max)
+        return count_recursive(nums, nums[0], nums[0])
 
 
 solution = Solution()
-print(solution.countSubarrays([35054, 398719, 945315, 945315, 820417, 945315,
-      35054, 945315, 171832, 945315, 35054, 109750, 790964, 441974, 552913], 35054, 945315))
+print(solution.countSubarrays([1, 1, 1, 1], 1, 1))
