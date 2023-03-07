@@ -8,15 +8,18 @@ class Solution:
         i = 0
         time = sorted(time)
         s = 0
-        while (s < totalTrips):
-            i = i+1
+        l = time[0]
+        h = time[len(time)-1]*totalTrips
+        while (l <= h):
+            i = l+int((h-l)/2)
             s = 0
             for t in time:
                 if (t > i):
                     break
                 s = s+int(i/t)
-        return i
-
-
-solution = Solution()
-print(solution.minimumTime([5, 10, 10], 9))
+            if (s >= totalTrips):
+                ans = i
+                h = i-1
+            else:
+                l = i+1
+        return ans
