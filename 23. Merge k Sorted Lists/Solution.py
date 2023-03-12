@@ -10,26 +10,18 @@ class ListNode:
 
 class Solution:
     def mergeKLists(self, lists: List[Optional[ListNode]]) -> Optional[ListNode]:
-        def get_len() -> int:
-            nonlocal lists
-            length = 0
-            for l in lists:
-                if (l != None):
-                    length = length+1
-            return length
-
         def get_min() -> Optional[ListNode]:
             nonlocal lists
-            if (get_len() == 0):
-                return None
             min_val = 10001
-            min_index = 0
+            min_index = -1
             for i, l in enumerate(lists):
                 if (l == None):
                     continue
                 if (min_val > l.val):
                     min_val = l.val
                     min_index = i
+            if (min_index == -1):
+                return None
             lists[min_index] = lists[min_index].next
             min_node = ListNode(min_val, get_min())
             return min_node
