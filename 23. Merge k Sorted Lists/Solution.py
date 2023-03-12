@@ -10,22 +10,21 @@ class ListNode:
 
 class Solution:
     def mergeKLists(self, lists: List[Optional[ListNode]]) -> Optional[ListNode]:
-        def get_min() -> Optional[ListNode]:
-            nonlocal lists
-            min_val = 10001
-            min_index = -1
-            for i, l in enumerate(lists):
-                if (l == None):
-                    continue
-                if (min_val > l.val):
-                    min_val = l.val
-                    min_index = i
-            if (min_index == -1):
-                return None
-            lists[min_index] = lists[min_index].next
-            min_node = ListNode(min_val, get_min())
-            return min_node
-        return get_min()
+        min_val = 10001
+        min_index = -1
+        for i, l in enumerate(lists):
+            if (l == None):
+                continue
+            if (min_val > l.val):
+                min_val = l.val
+                min_index = i
+        if (min_index == -1):
+            return None
+        lists[min_index] = lists[min_index].next
+        if (lists[min_index] == None):
+            lists.remove(None)
+        min_node = ListNode(min_val, self.mergeKLists(lists))
+        return min_node
 
 
 solution = Solution()
