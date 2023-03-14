@@ -11,4 +11,15 @@ class TreeNode:
 
 class Solution:
     def sumNumbers(self, root: Optional[TreeNode]) -> int:
-        return 0
+        def dfs(root: TreeNode, prev: str) -> int:
+            result = 0
+            if (root == None):
+                return result
+            if (root.left == None and root.right == None):
+                return int(prev+str(root.val))
+            if (root.left != None):
+                result = result+dfs(root.left, prev+str(root.val))
+            if (root.right != None):
+                result = result+dfs(root.right, prev+str(root.val))
+            return result
+        return dfs(root, "")
